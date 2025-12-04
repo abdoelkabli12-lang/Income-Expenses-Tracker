@@ -28,6 +28,18 @@ if (isset($_POST['Incomes']) && isset($_POST['descreption'])){
             $stmt->bind_param("is", $Incomes, $Desc);
 
       }
+      $EDate = $_POST['edit-date'];
+      $id = $_POST['id'];
+      if (isset($_POST['edit-Incomes'])){
+        $EIncomes = trim($_POST['edit-Incomes']);
+        $EDesc = trim($_POST['edit-descreption']);
+
+
+        if($EIncomes !== '') {
+          $stmt = $sql_con->prepare("UPDATE income_tracker Income WHERE id = $id");
+        $stmt->bind_param("d", $Incomes);
+        }
+      }
       $stmt->execute();
 
 
@@ -36,6 +48,8 @@ if (isset($_POST['Incomes']) && isset($_POST['descreption'])){
     }
 
 }
+
+
 
 header("Location: index.php");
 exit;
