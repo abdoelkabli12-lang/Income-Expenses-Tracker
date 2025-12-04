@@ -26,7 +26,6 @@ $result_exp = $sql_con->query($sql_exp);
 $sql_sumExp = "SELECT SUM(Expences) AS total_expenses FROM expences_trakcer";
 $sumExpResult = $sql_con->query($sql_sumExp);
 $total_expenses = ($sumExpResult && $row = $sumExpResult->fetch_assoc()) ? $row['total_expenses'] : 0;
-
 ?>
 
 
@@ -38,31 +37,171 @@ $total_expenses = ($sumExpResult && $row = $sumExpResult->fetch_assoc()) ? $row[
   <title>Money Track</title>
 <link rel="shortcut icon" href="297-2977261_wallet-budget-tracker-budgetbakers-icon-app.png" type="image/png">
 <link rel="icon" href="297-2977261_wallet-budget-tracker-budgetbakers-icon-app.png" type="image/png">
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=K2D:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&family=Lexend:wght@100..900&family=Press+Start+2P&family=Volkhov:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
 </head>
 <body class="bg-grey">
 
 
+<script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            'press-start': ['"Press Start 2P"', 'cursive'],
+            'K2D': ['"K2D"', 'cursive'],
+          },
+          colors: {
+            red: '#A63348',
+            magenta: '#5F425F',
+            myblue: '#3B4A6B',
+            cyan: '#1B7C97',
+            myblue: '#3B4A6B',
+            gred: '#FF0000',
+            legendary: '#FFD400',
+            rare: '#0C0091',
+            uncommon: '#00FF11',
+            common: '#FFFFFF',
+            tblue: '#1F2937',
+            grey: '#6B7280',
+            gblue: '#374151',
+            stroke: '#4B5563',
+            underbg: '#E5E7EB',
+            grayish: '#374151',
+            brownish: '#EEB76B',
+            orangish: '#E2703A',
+            redmagenta: '#9C3D54',
+            dark_brown: '#310B0B',
+          }
+        }
+      }
+    }
+  </script>
 
 
-  <div id="incomes" class="bgblur hidden  fixed grid justify-center items-center border-1 border-black h-screen w-screen bg-white/25 backdrop-blur-sm md:text-lg lg:text-xs">
-    <div class="cont flex justify-center bg-white h-40 w-80">
-      <form class="" action="Income.php" method="post">
-        <label for="Incomes">Add Income</label><br>
-        <input type="text" name = "Incomes" required><br>
-        <input type="submit" name = "submit-btn" value="submit">  
-      </form>
-    </div>
+
+<header>
+  <div class=" flex bg-gradient-to-r from-green-600 via-green-300 to-blue-600 h-14 w-full flex items-center">
+    <h1 class="ml-4 font-semibold font-[Inter] text-2xl text-white">
+      Smart Wallet <img src="2dde7ddf-9a38-400b-94d2-c90c14b33677.jpg" class="rounded-full object-fit w-12">
+    </h1>
   </div>
-  <div id="expences" class="bgblur hidden fixed grid justify-center items-center border-1 border-black h-screen w-screen bg-white/25 backdrop-blur-sm md:text-lg lg:text-xs">
-    <div class="cont flex justify-center bg-white h-40 w-80">
-      <form class="" action="Expences.php" method="post">
-        <label for="Expences">Add expence</label><br>
-        <input type="text" name = "Expences" required><br>
-        <input type="submit" name = "submit-btn" value="submit">  
-      </form>
+</header>
+
+
+    <div  id="incomes" class="hidden w-full bg-grey">
+        <div class="bgblur fixed backdrop-blur-sm bg-white/15 flex h-screen w-[100%] justify-center items-center ">
+            <div  class="cont w-96 mx-auto bg-white rounded shadow">
+
+                <div class="mx-16 py-4 px-8 text-black text-xl font-bold border-b border-grey-500 flex justify-center">Add Income
+                </div>
+
+                <form id="inc-form" action="Income.php" method="post">
+                    <div class="py-4 px-8">
+
+                        <div class="mb-4">
+                            <label for="Incomes" class="block text-grey-darker text-sm font-bold mb-2">Add Income:</label>
+                            <input class=" border rounded w-full py-2 px-3 text-grey-darker" type="text"
+                                name="Incomes" id="student_id" value="" placeholder="Enter Your Income amount">
+                        </div>
+
+
+                        <div class="mb-4">
+                            <label class="block text-grey-darker text-sm font-bold mb-2">Description: </label>
+                            <input class=" border rounded w-full py-2 px-3 text-grey-darker" type="text"
+                                name="descreption" id="descreption" value="" placeholder="Enter a descreption">
+                      
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block text-grey-darker text-sm font-bold mb-2">Date: </label>
+                            <input class=" border rounded w-full py-2 px-3 text-grey-darker" type="date"
+                                name="date" id="date" value="" placeholder="Enter Your date">
+                            <p id=error_creater_id></p>
+                        </div>
+
+
+
+                        <div class="mb-4">
+                            <button
+                                class="mb-2 mx-16 rounded-full py-3 px-24 bg-gradient-to-r from-uncommon to-rare ">
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
     </div>
-  </div>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+        <div id="expences" class=" hidden w-full bg-grey-500">
+        <div  class="bgblur fixed backdrop-blur-sm bg-white/15 flex h-screen w-[100%] justify-center items-center">
+            <div id="" class="cont w-96 mx-auto bg-white rounded shadow">
+
+                <div class="mx-16 py-4 px-8 text-black text-xl font-bold border-b border-grey-500 flex justify-center">Add Expence
+                </div>
+
+                <form id="exp-form" action="Expences.php" method="post">
+                    <div class="py-4 px-8">
+
+                        <div class="mb-4">
+                            <label for="Incomes" class="block text-grey-darker text-sm font-bold mb-2">Add Expence:</label>
+                            <input class=" border rounded w-full py-2 px-3 text-grey-darker" type="text"
+                                name="Expences" id="student_id" value="" placeholder="Enter Your Expence amount">
+                              </div>
+
+
+                        <div class="mb-4">
+                            <label class="block text-grey-darker text-sm font-bold mb-2">Description: </label>
+                            <input class=" border rounded w-full py-2 px-3 text-grey-darker" type="text"
+                                name="descreption_exp" id="descreption" value="" placeholder="Enter a descreption">
+                      
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block text-grey-darker text-sm font-bold mb-2">Date: </label>
+                            <input class=" border rounded w-full py-2 px-3 text-grey-darker" type="date" name="Date_exp1" id="date_exp" value="" placeholder="Enter Your date">
+                            <p id=error_creater_id></p>
+                        </div>
+
+
+
+                        <div class="mb-4">
+                            <button
+                                class="mb-2 mx-16 rounded-full py-1 px-24 bg-gradient-to-r from-green-400 to-blue-500 ">
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
 <div  class="h-screen w-full flex gap-12 justify-center items-center">
   <button id="expences-btn" class="bg-gred rounded-md p-1">
     Add An expence 🥲
@@ -71,9 +210,6 @@ $total_expenses = ($sumExpResult && $row = $sumExpResult->fetch_assoc()) ? $row[
     Add An Income 🥲
   </button>
 </div>
-
-
-
 
 
 
@@ -88,16 +224,16 @@ $total_expenses = ($sumExpResult && $row = $sumExpResult->fetch_assoc()) ? $row[
 
   <tbody>
     <?php
-      if ($sumExpResult && $sumExpResult->num_rows > 0) {
+      if ($result_inc && $result_inc->num_rows > 0) {
         // reset pointer (important if you echo before)
-        $sumExpResult->data_seek(0);
+        $result_inc->data_seek(0);
 
-        while($total_income = $sumExpResult->fetch_assoc()){
+        while($row_inc = $result_inc->fetch_assoc()){
           echo "
             <tr>
-              <td class='border p-2'>{$row['Income']}</td>
-              <td class='border p-2'>{$row['Date']}</td>
-              <td class='border p-2'>{$row['descr']}</td>
+              <td class=' text-uncommon font-semibold'>$ {$row_inc['Income']}</td>
+              <td class=''>{$row_inc['Date']}</td>
+              <td class=''>{$row_inc['descr']}</td>
             </tr>
           ";
         }
@@ -111,7 +247,7 @@ $total_expenses = ($sumExpResult && $row = $sumExpResult->fetch_assoc()) ? $row[
     <tr>
       <td class='border p-2 font-bold'>Total:</td>
       <td class='border p-2' colspan='2'>
-        <?php echo $total_income['total_income'] ?? ''; ?>
+        <?php echo "<h1 class = 'font-bold text-md'>$ " . $total_income . "</h1>" ?? ''; ?>
       </td>
     </tr>
   </tfoot>
@@ -135,7 +271,7 @@ $total_expenses = ($sumExpResult && $row = $sumExpResult->fetch_assoc()) ? $row[
         while($row_exp = $result_exp->fetch_assoc()){
           echo "
             <tr>
-              <td class='border p-2'>{$row_exp['Expences']}</td>
+              <td class='border p-2 text-gred font-semibold'>$ {$row_exp['Expences']}</td>
               <td class='border p-2'>{$row_exp['Date']}</td>
               <td class='border p-2'>{$row_exp['descr']}</td>
             </tr>
@@ -152,7 +288,7 @@ $total_expenses = ($sumExpResult && $row = $sumExpResult->fetch_assoc()) ? $row[
     <tr>
       <td class='border p-2 font-bold'>Total:</td>
       <td class='border p-2' colspan='2'>
-        <?php echo $row_exp['total_expenses'] ?? ''; ?>
+        <?php echo "<h1 class = 'font-bold text-md'>$ " . $total_expenses . "</h1>" ?? ''; ?>
       </td>
     </tr>
   </tfoot>
@@ -166,41 +302,6 @@ $total_expenses = ($sumExpResult && $row = $sumExpResult->fetch_assoc()) ? $row[
 
 
 
-<script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            'press-start': ['"Press Start 2P"', 'cursive'],
-            'K2D': ['"K2D"', 'cursive'],
-          },
-          colors: {
-            red: '#A63348',
-            magenta: '#5F425F',
-            blue: '#3B4A6B',
-            cyan: '#1B7C97',
-            myblue: '#3B4A6B',
-            gred: '#FF0000',
-            legendary: '#FFD400',
-            rare: '#0C0091',
-            uncommon: '#00FF11',
-            common: '#FFFFFF',
-            tblue: '#1F2937',
-            grey: '#6B7280',
-            gblue: '#374151',
-            stroke: '#4B5563',
-            underbg: '#E5E7EB',
-            grayish: '#374151',
-            brownish: '#EEB76B',
-            orangish: '#E2703A',
-            redmagenta: '#9C3D54',
-            dark_brown: '#310B0B',
-          }
-        }
-      }
-    }
-  </script>
 
   <script type="text/javascript" src="script.js"></script>
 </body>

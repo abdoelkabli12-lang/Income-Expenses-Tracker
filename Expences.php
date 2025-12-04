@@ -5,8 +5,12 @@ $username = "root";
 $password = "";
 $dbname = "tracker";
 
-if (isset($_POST['Expences'])) {
+
+
+if (isset($_POST['Expences']) && isset($_POST['descreption_exp']))  {
     $Expences = trim($_POST['Expences']);
+    $Desc_exp = trim($_POST['descreption_exp']);
+    $Date_exp = $_POST['Date_exp1'];
         
     if ($Expences !== '') {
 
@@ -16,9 +20,15 @@ if (isset($_POST['Expences'])) {
         die("Connection failed: " . $sql_con->connect_error);
       }
 
-      $stmt = $sql_con->prepare("INSERT INTO expences_trakcer(Expences) VALUES(?)");
-              
-      $stmt->bind_param("i", $Expences);
+
+
+      if($Date_exp != '') {
+      $stmt = $sql_con->prepare("INSERT INTO expences_trakcer(Expences, descr, Date) VALUES(?, ?, ?)");
+      $stmt->bind_param("iss", $Expences, $Desc_exp, $Date_exp);
+      } else { 
+        $stmt = $sql_con->prepare("INSERT INTO expences_trakcer(expences, descr, Date) VALUES(?, ?, CURRENT_DATE())");
+              $stmt->bind_param("is", $Expences, $Desc_exp);
+      }
       $stmt->execute();
 
 

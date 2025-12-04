@@ -5,8 +5,10 @@ $username = "root";
 $password = "";
 $dbname = "tracker";
 
-if (isset($_POST['Incomes'])) {
+$Date = $_POST['date'];
+if (isset($_POST['Incomes']) && isset($_POST['descreption'])){
     $Incomes = trim($_POST['Incomes']);
+    $Desc = trim($_POST['descreption']);
         
     if ($Incomes !== '') {
 
@@ -16,9 +18,16 @@ if (isset($_POST['Incomes'])) {
         die("Connection failed: " . $sql_con->connect_error);
       }
 
-      $stmt = $sql_con->prepare("INSERT INTO income_tracker(Income) VALUES(?)");
-              
-      $stmt->bind_param("i", $Incomes);
+
+            
+      if($Date != '') {
+        $stmt = $sql_con->prepare("INSERT INTO income_tracker(Income, descr, Date) VALUES(?, ?, ?)");
+        $stmt->bind_param("iss", $Incomes, $Desc, $Date);
+      } else {
+            $stmt = $sql_con->prepare("INSERT INTO income_tracker (Income, descr, Date) VALUES (?, ?, CURRENT_DATE())");
+            $stmt->bind_param("is", $Incomes, $Desc);
+
+      }
       $stmt->execute();
 
 

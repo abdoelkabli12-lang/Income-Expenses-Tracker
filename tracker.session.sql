@@ -1,1 +1,4 @@
-TRUNCATE TABLE expences_trakcer;
+ALTER TABLE income_tracker MODIFY Date DATE NOT NULL DEFAULT CURRENT_TIMESTAMP;
+
+
+
