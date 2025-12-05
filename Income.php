@@ -59,14 +59,24 @@ if (isset($_POST['Incomes']) && isset($_POST['descreption'])){
         }
       }
 
+      if (isset($_POST['Did'])){
+        $Did = $_POST['Did'];
+        $stmt = $sql_con->prepare("DELETE FROM income_tracker WHERE id = ?");
+        $stmt->bind_param("i", $Did);
+        $stmt->execute();
+        $stmt->close();
+      }
+
 
     $sql_con->close();
+    
 
 
 
 
 
-header("Location: index.php");
+
+header("Location: Home.php");
 exit;
 
 ?>

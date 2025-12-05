@@ -6,8 +6,8 @@ const Blur = document.querySelectorAll(".bgblur");
 const cont = document.querySelectorAll(".cont");
 const editBtnInc = document.querySelectorAll(".edit_btn_inc");
 const editBtnExp = document.querySelectorAll(".edit_btn_exp");
-const deleteBtnExp = document.querySelectorAll(".delete_btn_inc");
-const deleteBtnInc = document.querySelectorAll(".delete_btn_exp");
+const deleteBtnInc = document.querySelectorAll(".delete_btn_inc");
+const deleteBtnExp = document.querySelectorAll(".delete_btn_exp");
 const contInc = document.getElementById("cont_inc");
 const contExp = document.getElementById("cont_exp");
 
@@ -142,6 +142,40 @@ cont.forEach(cont => {
     e.stopPropagation();
   })
 })
+
+
+deleteBtnInc.forEach(btn => {
+  btn.addEventListener("click", (e) => {
+    let div = document.createElement("div");
+    let row = e.target.closest(".element");
+    let deleteForm = `
+    <form id="delete-inc-form" action="Income.php" method="post">
+    <input value = '${row.dataset.id}' name = 'Did' type = 'hidden'>
+    </form>
+    `;
+div.innerHTML = deleteForm;
+contInc.appendChild(div);
+    document.getElementById("delete-inc-form").submit();
+  })
+})
+
+
+deleteBtnExp.forEach(btn => {
+  btn.addEventListener("click", (e) => {
+    let div = document.createElement("div");
+    let row = e.target.closest(".Eelement");
+    let deleteForm = `
+    <form id="delete-exp-form" action="Expences.php" method="post">
+    <input value = '${row.dataset.id}' name = 'EDid' type = 'hidden'>
+    </form>
+    `;
+div.innerHTML = deleteForm;
+contExp.appendChild(div);
+    document.getElementById("delete-exp-form").submit();
+  })
+})
+
+
 
 
 

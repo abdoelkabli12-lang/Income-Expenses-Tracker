@@ -51,9 +51,17 @@ if (isset($_POST['Expences']) && isset($_POST['descreption_exp']))  {
         }
       }
             
+      if (isset($_POST['EDid'])){
+        $EDid = $_POST['EDid'];
+        $stmt = $sql_con->prepare("DELETE FROM expences_trakcer WHERE id = ?");
+        $stmt->bind_param("i", $EDid);
+        $stmt->execute();
+        $stmt->close();
+      }
+            
       $sql_con->close();
 
-header("Location: index.php");
+header("Location: Home.php");
 exit;
 
 ?>
