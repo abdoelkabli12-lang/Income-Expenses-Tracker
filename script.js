@@ -4,10 +4,14 @@ const incomeForm = document.getElementById("incomes");
 const expencesForm = document.getElementById("expences");
 const Blur = document.querySelectorAll(".bgblur");
 const cont = document.querySelectorAll(".cont");
-const editBtn = document.querySelectorAll(".edit_btn");
-const ha3 = document.getElementById("ha3");
+const editBtnInc = document.querySelectorAll(".edit_btn_inc");
+const editBtnExp = document.querySelectorAll(".edit_btn_exp");
+const deleteBtnExp = document.querySelectorAll(".delete_btn_inc");
+const deleteBtnInc = document.querySelectorAll(".delete_btn_exp");
+const contInc = document.getElementById("cont_inc");
+const contExp = document.getElementById("cont_exp");
 
-editBtn.forEach(btn => {
+editBtnInc.forEach(btn => {
   btn.addEventListener("click", (e) => {
     let row = e.target.closest(".element");
     let div = document.createElement("div");
@@ -55,12 +59,67 @@ editBtn.forEach(btn => {
             </div>
           </div>
         </form>
-    
     </div>
     `;
 
     div.innerHTML = editForm;
-    ha3.appendChild(div);
+    contInc.appendChild(div);
+  });
+});
+
+editBtnExp.forEach(btn => {
+  btn.addEventListener("click", (e) => {
+    let row = e.target.closest(".Eelement");
+    let div = document.createElement("div");
+    div.classList.add("w-full");
+
+    let editForm = `
+   <div class="bgblur fixed backdrop-blur-sm bg-white/15 flex h-screen w-[100%] justify-center items-center ">
+      <div class="cont w-96 mx-auto bg-white rounded shadow">
+
+        <div class="mx-16 py-4 px-8 text-black text-xl font-bold border-b border-grey-500 flex justify-center">Add Income
+        </div>
+
+        <form id="edit-inc-form" action="Expences.php" method="post">
+          <div class="py-4 px-8">
+
+            <div class="mb-4">
+              <label for="edit-Expenses" class="block text-grey-darker text-sm font-bold mb-2">Edit Expense:</label>
+              <input class=" border rounded w-full py-2 px-3 text-grey-darker" type="text"
+                name="edit-Expenses" id="edit-Expenses" value="" placeholder="Enter Your Expense amount">
+            </div>
+
+
+            <div class="mb-4">
+              <label class="block text-grey-darker text-sm font-bold mb-2">Edit Description: </label>
+              <input class=" border rounded w-full py-2 px-3 text-grey-darker" type="text"
+                name="edit-Edescreption" id="edit-Edescreption" value="" placeholder="Enter a descreption">
+            </div>
+
+            <input value = '${row.dataset.id}' name = 'id' type = 'hidden'>
+
+            <div class="mb-4">
+              <label class="block text-grey-darker text-sm font-bold mb-2">Edit Date: </label>
+              <input class=" border rounded w-full py-2 px-3 text-grey-darker" type="date"
+                name="edit-Edate" id="edit-Edate" value="" placeholder="Enter Your date">
+              <p id=error_creater_id></p>
+            </div>
+
+
+
+            <div class="mb-4">
+              <button
+                class="mb-2 mx-16 rounded-full py-3 px-24 bg-gradient-to-r from-uncommon to-rare ">
+                Save
+              </button>
+            </div>
+          </div>
+        </form>
+    </div>
+    `;
+
+    div.innerHTML = editForm;
+    contExp.appendChild(div);
   });
 });
 incomeBTN.addEventListener("click", () => {

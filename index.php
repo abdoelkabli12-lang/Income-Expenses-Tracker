@@ -11,7 +11,7 @@ if ($sql_con->connect_error) {
   die("Connection failed: " . $sql_con->connect_error);
 }
 
-$sql_inc = "SELECT * FROM income_tracker";
+$sql_inc = "SELECT * FROM income_tracker WHERE MONTH(Date) = MONTH(CURRENT_DATE) AND YEAR(Date) = YEAR(CURRENT_DATE) AND Date = CURRENT_DATE";
 $result_inc = $sql_con->query($sql_inc);
 
 $sql_sumInc = "SELECT SUM(Income) AS total_income FROM income_tracker";
@@ -20,7 +20,7 @@ $total_income = ($sumIncResult && $row = $sumIncResult->fetch_assoc()) ? $row['t
 
 
 
-$sql_exp = "SELECT * FROM expences_trakcer";
+$sql_exp = "SELECT * FROM expences_trakcer WHERE MONTH(Date) = MONTH(CURRENT_DATE) AND YEAR(Date) = YEAR(CURRENT_DATE) AND Date = CURRENT_DATE";
 $result_exp = $sql_con->query($sql_exp);
 
 $sql_sumExp = "SELECT SUM(Expences) AS total_expenses FROM expences_trakcer";
@@ -100,12 +100,15 @@ $total_expenses = ($sumExpResult && $row = $sumExpResult->fetch_assoc()) ? $row[
   </header>
 
 
-<div id="ha3">
+<div id="cont_inc">
+
+</div>
+<div id="cont_exp">
 
 </div>
 
-  <div id="incomes" class="hidden w-full bg-grey">
-    <div class="bgblur fixed backdrop-blur-sm bg-white/15 flex h-screen w-[100%] justify-center items-center ">
+  <div id="incomes" class="hidden w-full bg-grey z-[100]">
+    <div class="bgblur fixed backdrop-blur-sm bg-white/15 flex h-screen w-[100%] justify-center items-center z-[999]">
       <div class="cont w-96 mx-auto bg-white rounded shadow">
 
         <div class="mx-16 py-4 px-8 text-black text-xl font-bold border-b border-grey-500 flex justify-center">Add Income
@@ -152,8 +155,8 @@ $total_expenses = ($sumExpResult && $row = $sumExpResult->fetch_assoc()) ? $row[
   </div>
 
 
-  <div id="expences" class=" hidden w-full bg-grey-500">
-    <div class="bgblur fixed backdrop-blur-sm bg-white/15 flex h-screen w-[100%] justify-center items-center">
+  <div id="expences" class=" hidden w-full bg-grey-500 z-[100]">
+    <div class="bgblur fixed backdrop-blur-sm bg-white/15 flex h-screen w-[100%] justify-center items-center z-[999]">
       <div id="" class="cont w-96 mx-auto bg-white rounded shadow">
 
         <div class="mx-16 py-4 px-8 text-black text-xl font-bold border-b border-grey-500 flex justify-center">Add Expence
@@ -215,7 +218,7 @@ $total_expenses = ($sumExpResult && $row = $sumExpResult->fetch_assoc()) ? $row[
 
   <div class="w-full px-6 py-6 mx-auto">
     <!-- row 1 -->
-    <div class="flex flex-wrap -mx-3">
+    <div class="flex flex-wrap -mx-3 z-[10]">
       <!-- card1 -->
       <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
         <div class="relative flex flex-col min-w-0 break-words bg-white shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
@@ -288,6 +291,7 @@ $total_expenses = ($sumExpResult && $row = $sumExpResult->fetch_assoc()) ? $row[
           </div>
         </div>
       </div>
+    </div>
 
 
 
@@ -315,7 +319,7 @@ $total_expenses = ($sumExpResult && $row = $sumExpResult->fetch_assoc()) ? $row[
     <div class='flex items-center px-2 py-1'>
       <div class='ml-6'>
         <p class='mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-60'>Income:</p>
-        <h6 class='mb-0 text-sm leading-normal dark:text-uncommon'>$ $row_inc[Income]</h6>
+        <h6 class='mb-0 text-sm leading-normal dark:text-uncommon font-semibold'>$ $row_inc[Income]</h6>
       </div>
     </div>
   </td>
@@ -332,7 +336,10 @@ $total_expenses = ($sumExpResult && $row = $sumExpResult->fetch_assoc()) ? $row[
     </div>
   </td>
     <td class='p-2 align-middle bg-transparent border-b whitespace-nowrap dark:border-white/40'>
-    <button class = 'edit_btn'> hello</button>
+    <button class = 'edit_btn_inc text-cyan'>Edit</button>
+    </td>
+    <td class='p-2 align-middle bg-transparent border-b whitespace-nowrap dark:border-white/40'>
+    <button class = 'delet_btn_inc text-gred'>Delete</button>
     </td>
 </tr>
           ";
@@ -353,12 +360,12 @@ $total_expenses = ($sumExpResult && $row = $sumExpResult->fetch_assoc()) ? $row[
 
             while ($row_exp = $result_exp->fetch_assoc()) {
               echo "
-<tr>
+<tr class = 'Eelement' data-id = $row_exp[id]>
   <td class='p-2 align-middle bg-transparent border-b w-3/10 whitespace-nowrap dark:border-white/40'>
     <div class='flex items-center px-2 py-1'>
       <div class='ml-6'>
         <p class='mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-60'>Income:</p>
-        <h6 class='mb-0 text-sm leading-normal dark:text-uncommon'>$ $row_exp[Expences]</h6>
+        <h6 class='mb-0 text-sm leading-normal dark:text-gred font-semibold'>$ $row_exp[Expences]</h6>
       </div>
     </div>
   </td>
@@ -374,6 +381,13 @@ $total_expenses = ($sumExpResult && $row = $sumExpResult->fetch_assoc()) ? $row[
       <h6 class='mb-0 text-sm leading-normal dark:text-white'>$row_exp[descr]</h6>
     </div>
   </td>
+    </td>
+    <td class='p-2 align-middle bg-transparent border-b whitespace-nowrap dark:border-white/40'>
+    <button class = 'edit_btn_exp text-cyan'>Edit</button>
+    </td>
+    <td class='p-2 align-middle bg-transparent border-b whitespace-nowrap dark:border-white/40'>
+    <button class = 'delet_btn_exp text-gred'>Delete</button>
+    </td>
 </tr>
           ";
             }

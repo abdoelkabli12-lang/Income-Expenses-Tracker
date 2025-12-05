@@ -5,14 +5,17 @@ $username = "root";
 $password = "";
 $dbname = "tracker";
 
-$Date = $_POST['date'];
+
+$sql_con = new mysqli($servername, $username, $password, $dbname);
+
 if (isset($_POST['Incomes']) && isset($_POST['descreption'])){
-    $Incomes = trim($_POST['Incomes']);
-    $Desc = trim($_POST['descreption']);
+  $Incomes = trim($_POST['Incomes']);
+  $Desc = trim($_POST['descreption']);
+  $Date = $_POST['date'];
         
     if ($Incomes !== '') {
 
-      $sql_con = new mysqli($servername, $username, $password, $dbname);
+
               
       if ($sql_con->connect_error) {
         die("Connection failed: " . $sql_con->connect_error);
@@ -28,26 +31,38 @@ if (isset($_POST['Incomes']) && isset($_POST['descreption'])){
             $stmt->bind_param("is", $Incomes, $Desc);
 
       }
-      $EDate = $_POST['edit-date'];
-      $id = $_POST['id'];
+      $stmt->execute();
+      $stmt->close();
+    }
+  }
+
       if (isset($_POST['edit-Incomes'])){
         $EIncomes = trim($_POST['edit-Incomes']);
         $EDesc = trim($_POST['edit-descreption']);
+        $EDate = $_POST['edit-date'];
+        $id = intval($_POST['id']);
 
 
         if($EIncomes !== '') {
-          $stmt = $sql_con->prepare("UPDATE income_tracker Income WHERE id = $id");
-        $stmt->bind_param("d", $Incomes);
+        if (!empty($EDate)) {
+            // Update including date
+            $stmt = $sql_con->prepare("UPDATE income_tracker SET Income = ?, descr = ?, Date = ? WHERE id = ?");
+            $stmt->bind_param("issi", $EIncomes, $EDesc, $EDate, $id);
+
+        } else {
+            // Update without date change
+            $stmt = $sql_con->prepare("UPDATE income_tracker SET Income = ?, descr = ? WHERE id = ?");
+            $stmt->bind_param("isi", $EIncomes, $EDesc, $id);
+        }
+          $stmt->execute();
+          $stmt->close();
         }
       }
-      $stmt->execute();
 
 
-      $stmt->close();
-      $sql_con->close();
-    }
+    $sql_con->close();
 
-}
+
 
 
 
