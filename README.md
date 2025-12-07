@@ -147,7 +147,7 @@ Start a local server (XAMPP / WAMP / MAMP)
 
 Open the project in your browser
 
-http://localhost/finance-tracker/
+http://localhost/Money%20Track/Home.php
 
 🎯 Purpose of the Project
 
